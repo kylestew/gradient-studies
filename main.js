@@ -19,7 +19,7 @@ async function init() {
 
     // stay fullscreen
     window.onresize = onWindowResize;
-    onWindowResize(); // set initial size
+    onWindowResize(true); // set initial size
 
     // fun extras
     capture = new CCapture({ format: "png" });
@@ -60,16 +60,19 @@ function stateDidUpdate() {
 }
 
 let resizeTimer;
-function onWindowResize() {
+function onWindowResize(force = false) {
     clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => {
-        // stay fullscreen
-        sketch.resize({
-            width: window.innerWidth,
-            height: window.innerHeight,
-            dpr: window.devicePixelRatio,
-        });
-    }, 250); // Adjust time to suit. Smaller numbers for more responsiveness, larger for less
+    resizeTimer = setTimeout(
+        () => {
+            // stay fullscreen
+            sketch.resize({
+                width: window.innerWidth,
+                height: window.innerHeight,
+                dpr: window.devicePixelRatio,
+            });
+        },
+        force ? 0 : 100
+    );
 }
 
 let capture = false;
