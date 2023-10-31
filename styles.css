@@ -3,19 +3,21 @@
     padding: 0;
     border: 0;
     outline: 0;
-    font-size: 100%;
-    vertical-align: baseline;
+    box-sizing: border-box; /* Ensure padding and border are included in total width and height */
+    font-size: 100%; /* Default font size */
+    vertical-align: baseline; /* Align the baseline of the element with the baseline of its parent */
     background: transparent;
-    color: #fff;
+    color: #fff; /* White text color by default */
 }
+
 html,
 body {
-    height: 100%;
-    background: #000;
+    width: 100%; /* Full width */
+    height: 100vh; /* Viewport height */
+    overflow: hidden; /* Hide scrollbars */
+    background: #000; /* Black background */
 }
 
 #render-canvas {
-    width: 100%;
-    height: 100%;
-    display: block;
+    display: block; /* Remove inline-block spacing */
 }

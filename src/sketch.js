@@ -42,7 +42,7 @@ class Sketch {
         this.camera.updateProjectionMatrix();
     }
 
-    updateState({ backgroundColor, mesh }) {
+    updateState({ mesh, backgroundColor, roughness, rimBoost }) {
         // if state now constains a Mesh, add it
         if (this.mesh == null && mesh != null) {
             const a = 0.3;
@@ -50,6 +50,11 @@ class Sketch {
 
             this.scene.add(mesh);
             this.mesh = mesh;
+        }
+
+        if (this.mesh != null) {
+            this.mesh.material.uniforms.roughness.value = roughness;
+            this.mesh.material.uniforms.rimBoost.value = rimBoost;
         }
 
         this.scene.background = new THREE.Color(backgroundColor);
