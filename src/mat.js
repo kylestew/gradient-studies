@@ -1,20 +1,22 @@
-import { MeshBasicMaterial } from "three";
+import { RawShaderMaterial, DoubleSide, GLSL3 } from "three";
 import { loadTexture } from "./lib/loaders";
 
 import matCapUrl from "../assets/matcap_1k.jpg?url";
 
-import fragment from "./glsl/main.frag";
+import vertexShader from "./glsl/main.vert";
+import fragmentShader from "./glsl/main.frag";
 
 export default async function loadMaterial() {
-    let tex = await loadTexture(matCapUrl);
-    console.log(tex);
-
-    console.log(fragment);
-
-    const material = new MeshBasicMaterial({
-        color: 0x00ff00,
-        // wireframe: true,
+    let matcapTexture = await loadTexture(matCapUrl);
+    return new RawShaderMaterial({
+        uniforms: {
+            matCapMap: { value: matcapTexture },
+            time: { value: 0 },
+        },
+        vertexShader,
+        fragmentShader,
+        glslVersion: GLSL3,
+        side: DoubleSide,
+        transparent: true,
     });
-
-    return material;
 }

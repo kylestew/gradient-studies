@@ -58,7 +58,7 @@ class Sketch {
     _update(time, deltaTime, {}) {
         if (this.mesh) {
             this.mesh.rotation.y = time / 4000;
-            // this.mesh.material.uniforms.time.value = time / 2000;
+            this.mesh.material.uniforms.time.value = time / 2000;
         }
         this.controls.update();
     }
