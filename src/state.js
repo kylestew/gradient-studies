@@ -1,10 +1,10 @@
 import * as THREE from "three";
 
 import watchState from "./lib/state-spy";
-import { loadModel, loadTexture } from "./lib/loaders";
+import { loadModel } from "./lib/loaders";
+import loadMaterial from "./mat";
 
 import modelUrl from "../assets/models/icosahedron.glb?url";
-import matCapUrl from "../assets/matcap_1k.jpg?url";
 
 async function loadGeometry() {
     const scene = await loadModel(modelUrl);
@@ -27,14 +27,8 @@ export default async function createState(updateFn) {
 
     setTimeout(async () => {
         let geo = await loadGeometry();
-        let tex = await loadTexture(matCapUrl);
-
-        const material = new THREE.MeshBasicMaterial({
-            color: 0x00ff00,
-            // wireframe: true,
-        });
-
-        state.mesh = new THREE.Mesh(geo, material);
+        let mat = await loadMaterial();
+        state.mesh = new THREE.Mesh(geo, mat);
     }, 0);
 
     return state;

@@ -21,7 +21,7 @@ class Sketch {
         this.scene = scene;
 
         let camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
-        camera.position.set(0, 0, 1);
+        camera.position.set(0, 0, 1).setLength(8);
         camera.lookAt(scene.position);
         this.camera = camera;
 
