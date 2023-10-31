@@ -12,6 +12,7 @@ class Sketch {
 
         // renderer.toneMapping = THREE.ACESFilmicToneMapping;
         // renderer.outputEncoding = THREE.sRGBEncoding;
+        renderer.shadowMap.enabled = true;
 
         renderer.domElement.id = "render-canvas";
         document.body.appendChild(renderer.domElement);

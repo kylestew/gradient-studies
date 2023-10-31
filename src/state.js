@@ -4,19 +4,21 @@ import watchState from "./lib/state-spy";
 import { loadModel } from "./lib/loaders";
 import loadMaterial from "./mat";
 
-import modelUrl from "../assets/models/icosahedron.glb?url";
+// import modelUrl from "../assets/models/icosahedron.glb?url";
 // import modelUrl from "../assets/models/dodecahedron.glb?url";
 // import modelUrl from "../assets/models/box.glb?url";
 // import modelUrl from "../assets/models/suzanne.glb?url";
 
 async function loadGeometry() {
-    const scene = await loadModel(modelUrl);
-    const geo = scene.scene.children[0].children[0].geometry;
-    geo.center();
-    // const scale = 1;
-    const scale = 1.333;
-    geo.applyMatrix4(new THREE.Matrix4().makeScale(scale, scale, scale));
-    return geo;
+    return new THREE.TorusGeometry(1, 0.5, 40, 200);
+
+    // const scene = await loadModel(modelUrl);
+    // const geo = scene.scene.children[0].children[0].geometry;
+    // geo.center();
+    // // const scale = 1;
+    // const scale = 1.333;
+    // geo.applyMatrix4(new THREE.Matrix4().makeScale(scale, scale, scale));
+    // return geo;
 }
 
 async function loadSuzanne() {
