@@ -4,21 +4,32 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 class Sketch {
     constructor(initialState) {
-        this.renderer = new THREE.WebGLRenderer({
+        let renderer = new THREE.WebGLRenderer({
             antialias: true,
             preserveDrawingBuffer: true,
             powerPreference: "high-performance",
         });
-        this.renderer.domElement.id = "render-canvas";
-        document.body.appendChild(this.renderer.domElement);
 
-        this.camera = new THREE.PerspectiveCamera(55, 1, 0.01, 100);
-        this.camera.position.set(2, 3, 5);
+        // renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        // renderer.outputEncoding = THREE.sRGBEncoding;
 
-        this.controls = new OrbitControls(this.camera, this.renderer.domElement);
-        this.controls.minDistance = 0.5;
-        this.controls.maxDistance = 20;
-        this.controls.enabled = true;
+        renderer.domElement.id = "render-canvas";
+        document.body.appendChild(renderer.domElement);
+        this.renderer = renderer;
+
+        let scene = new THREE.Scene();
+        this.scene = scene;
+
+        let camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+        camera.position.set(0, 0, 1);
+        camera.lookAt(scene.position);
+        this.camera = camera;
+
+        let controls = new OrbitControls(camera, renderer.domElement);
+        controls.minDistance = 0.5;
+        controls.maxDistance = 20;
+        controls.enabled = true;
+        this.controls = controls;
 
         this.updateState(initialState);
     }
@@ -31,27 +42,24 @@ class Sketch {
         this.camera.updateProjectionMatrix();
     }
 
-    updateState({ backgroundColor, cubeSize }) {
-        let scene = new THREE.Scene();
-        scene.background = new THREE.Color(backgroundColor);
+    updateState({ backgroundColor, mesh }) {
+        // if state now constains a Mesh, add it
+        if (this.mesh == null && mesh != null) {
+            const a = 0.3;
+            mesh.rotation.set(-a, 0, a);
 
-        const geometry = new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize);
-        const material = new THREE.MeshBasicMaterial({
-            color: 0x00ff00,
-            // wireframe: true,
-        });
-        const cube = new THREE.Mesh(geometry, material);
-        scene.add(cube);
-        this.cube = cube;
+            this.scene.add(mesh);
+            this.mesh = mesh;
+        }
 
-        this.scene = scene;
+        this.scene.background = new THREE.Color(backgroundColor);
     }
 
     _update(time, deltaTime, {}) {
-        time /= 2.0;
-        this.cube.rotation.y = 1.0 * Math.PI * Math.sin(time);
-        this.cube.rotation.x = 1.0 * Math.PI * Math.cos(time);
-
+        if (this.mesh) {
+            this.mesh.rotation.y = time / 4000;
+            // this.mesh.material.uniforms.time.value = time / 2000;
+        }
         this.controls.update();
     }
 

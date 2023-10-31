@@ -9,7 +9,7 @@ let stats, prevTime;
 
 async function init() {
     // create initial state
-    state = watchState(await createState());
+    state = await createState(stateDidUpdate);
 
     // pass to new sketch
     sketch = new Sketch(state);
@@ -57,21 +57,6 @@ function animate(time) {
 
 function stateDidUpdate() {
     sketch.updateState(state);
-}
-
-function watchState(state) {
-    // use a Proxy to publish state change events
-    const proxiedState = new Proxy(state, {
-        set(obj, prop, value) {
-            // apply update
-            Reflect.set(obj, prop, value);
-
-            stateDidUpdate();
-
-            return true;
-        },
-    });
-    return proxiedState;
 }
 
 let resizeTimer;
